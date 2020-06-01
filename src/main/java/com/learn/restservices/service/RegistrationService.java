@@ -20,13 +20,13 @@ public class RegistrationService {
     public String saveUser(Registration registration) {
 
         boolean iden = identificationCheck(registration);
-		System.out.println("testing iden" + iden);
+        System.out.println("testing iden" + iden);
         boolean idenEmail = validateEmaladdress(registration.getEmail());
         System.out.println("testing email" + idenEmail);
         if (registration.getMsisdnNumber().startsWith("0")) {
             System.out.println("testing ");
             return "1";
-        }  else if (iden == false) {
+        } else if (iden == false) {
             return "INVALID_PASSPORT";
         } else if (idenEmail == false) {
             return "INVALID EMAIL";
@@ -44,35 +44,30 @@ public class RegistrationService {
                 if (regList.size() > 0) {
                     return "2";
                 }
-            }else{
-				return "1";
-			}
+            } else {
+                return "1";
+            }
 
         } else if (idenEmail) {
-            System.out.println("iden::"+iden);
+            System.out.println("iden::" + iden);
             System.out.println("testing email ");
             List<Registration> regList = registrationRepository.findByEmail(registration.getEmail());
             if (regList.size() > 0) {
                 System.out.println("testing email1 ");
                 return "Duplicate EmailAdresss";
             }
-        }else if (iden) {
+        } else if (iden) {
             System.out.println("testing identification number ");
             List<Registration> regList = registrationRepository.findByIdentificationNumber(registration.getIdentificationNumber());
             if (regList.size() > 0) {
                 System.out.println("testing identification number 1 ");
                 return "Duplicate Identification";
             }
-        }
-        else {
-			return "2";
-		}
-
-			System.out.println("testing 2");
-
+        } else {
+            return "2";
+        }System.out.println("testing 2");
         Registration regOutput = registrationRepository.save(registration);
         return "0";
-
     }
 
     public boolean identificationCheck(Registration registration) {
